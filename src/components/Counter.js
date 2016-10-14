@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as CounterActions from '../actions/CounterActions';
+import * as UserActions from '../actions/UserActions';
 
 export class Counter extends Component {
   constructor(props, context) {
@@ -16,8 +17,11 @@ export class Counter extends Component {
     this.props.actions.decrement();
   }
 
+  componentDidMount() {
+    this.props.userActions.getPosts();
+  }
+
   render() {
-    console.log('this.props', this.props);
     return (
       <div className="counter-container">
         <div className="counter-num-label">{this.props.counter}</div>
@@ -45,7 +49,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(CounterActions, dispatch)
+    actions: bindActionCreators(CounterActions, dispatch),
+    userActions: bindActionCreators(UserActions, dispatch),
   };
 }
 

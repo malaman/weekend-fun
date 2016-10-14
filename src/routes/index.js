@@ -1,10 +1,10 @@
 import React from 'react';
 import App from '../containers/App';
 import { NotFoundView, Counter, FooView, BarView } from '../components';
+import User from '../pages/User';
 
-import Router from 'react-router/BrowserRouter'
-import Match from 'react-router/Match'
-import Link from 'react-router/Link'
+import Router from 'react-router/BrowserRouter';
+import Match from 'react-router/Match';
 
 
 const routes = [
@@ -13,6 +13,10 @@ const routes = [
     routes: [
       { pattern: '/',
         component: Counter,
+        exactly: true
+      },
+      { pattern: '/user/:id',
+        component: User,
         exactly: true
       },
       { pattern: '/foo',

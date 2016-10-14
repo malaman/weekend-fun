@@ -3,12 +3,13 @@ import rootReducer from '../reducers';
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 import DevTools from '../containers/DevTools';
-import { browserHistory } from 'react-router'
+import promiseMiddleware from 'redux-promise-middleware';
+
 
 const logger = createLogger();
 
 const finalCreateStore = compose(
-  applyMiddleware(logger, thunk),
+  applyMiddleware(/*logger,*/ thunk, promiseMiddleware()),
   DevTools.instrument()
 )(createStore);
 
