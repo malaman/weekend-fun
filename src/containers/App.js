@@ -11,22 +11,18 @@ export default class App extends Component {
   render() {
     const {routes} = this.props;
     return (
-      <div className="main-app-container">
-        <div className="main-app-nav">
-          <div>
-            <span><Link to="/">Home</Link></span>
-            <span><Link to="/user/1">User</Link></span>
-            <span><Link to="/foo">Foo</Link></span>
-            <span><Link to="/bar">Bar</Link></span>
-          </div>
-        </div>
           <div className="container">
-              {routes.map((route, i) => (
+            <div>
+              <span><Link to="/">Home</Link></span>
+              <span><Link to="/user/1">User</Link></span>
+              <span><Link to="/foo">Foo</Link></span>
+              <span><Link to="/bar">Bar</Link></span>
+            </div>
+            {routes.map((route, i) => (
               <MatchWithSubRoutes key={i} {...route} />
               ))}
+            <Footer />
           </div>
-          <Footer />
-      </div>
     );
   }
 }

@@ -8,10 +8,16 @@ const initialState = {
   comments: {}
 };
 
+function getPosts(state, payload) {
+  const posts = payload.map(post => ({...post, totalComments: post.comments.length}));
+  return {...state, posts};
+
+}
+
 export default function user(state = initialState, action) {
     switch (action.type) {
       case 'LOAD_USER_POSTS_FULFILLED':
-        return {...state, posts: action.payload};
+        return getPosts(state, action.payload);
       case 'LOAD_USER_INFO_FULFILLED':
         const {address, company} = action.payload;
         return  {...state,
@@ -24,7 +30,10 @@ export default function user(state = initialState, action) {
       case 'TOGGLE_POST_VIEW':
         const id = action.payload;
         const newPosts = deepClone(state.posts);
-        newPosts[id].expanded = !Boolean(newPosts[id].expanded);
+        const post = newPosts.find(post => post.id === id);
+        if (post) {
+          post.expanded = !Boolean(post.expanded);
+        }
         return {...state, posts: newPosts};
       default:
         return state;

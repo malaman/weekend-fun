@@ -1,37 +1,92 @@
-import React, {Component, PropTypes} from 'react';
-import {Table, Panel} from 'react-bootstrap';
+import React, {Component, PropTypes} from "react";
+import {Table, Panel} from "react-bootstrap";
+import classnames from "classnames";
+
+const centredCellStyle = {textAlign: "center"};
+
+function Comment({name, email, body}) {
+  return (
+    <Panel header={`${name} (${email})`}>
+      {body}
+    </Panel>
+  )
+}
+
+Comment.propTypes = {
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired
+};
 
 class Posts extends Component {
   static propTypes = {
-    posts: PropTypes.array.isRequired
+    posts: PropTypes.array.isRequired,
+    togglePost: PropTypes.func.isRequired
   };
 
+  handlePostClick(id) {
+    return () => this.props.togglePost(id);
+  }
+
+  getPost(post) {
+    const chevronClass = classnames("glyphicon", {
+      "glyphicon-chevron-up": post.expanded,
+      "glyphicon-chevron-down": !post.expanded
+    });
+    return (
+      <tr key={post.id} style={{cursor: "pointer"}} onClick={this.handlePostClick(post.id)}>
+        <td style={centredCellStyle}>
+          <span className={chevronClass}></span>
+        </td>
+        <td style={centredCellStyle}>{post.id}</td>
+        <td>{post.title}</td>
+        <th style={centredCellStyle}>{post.totalComments}</th>
+      </tr>
+    );
+  }
+
+  getComments(post) {
+    if (post.expanded) {
+      return (
+        <tr key={`${post.id}:comments`}>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+            <Panel bsStyle="success" header="Post body">
+              {post.body}
+            </Panel>
+            <Panel bsStyle="success" header="Comments">
+              {post.comments.map(comment => <Comment {...comment} />)}
+            </Panel>
+          </td>
+          <td>
+
+          </td>
+        </tr>
+      )
+    }
+  }
+
   getPosts() {
+    return this.props.posts.map(post => [this.getPost(post), this.getComments(post)]);
+  }
+
+  getTable() {
     if (this.props.posts.length) {
       return (
-        <Table striped bordered condensed hover>
+        <Table striped bordered hover>
           <thead>
           <tr>
-            <th></th>
-            <th>#</th>
-            <th>Topic</th>
-            <th>Comments</th>
+            <th style={centredCellStyle}></th>
+            <th style={centredCellStyle}>#</th>
+            <th className='col-sm-8 col-md-10'>Topic</th>
+            <th style={centredCellStyle}>Comments</th>
           </tr>
           </thead>
           <tbody>
-          {
-            this.props.posts.map(post => (
-              <tr key={post.id} style={{cursor: 'pointer'}}>
-                <td style={{textAlign: 'center'}}>
-                  <span className="glyphicon glyphicon-chevron-up"></span>
-                </td>
-                <td>{post.id}</td>
-                <td>{post.title}</td>
-                <th></th>
-              </tr>
-              )
-            )
-          }
+          {this.getPosts()}
           </tbody>
         </Table>
       )
@@ -43,7 +98,7 @@ class Posts extends Component {
     return (
       <div>
         <h2>Total Number of Posts: {this.props.posts.length} </h2>
-        {this.getPosts()}
+        {this.getTable()}
       </div>
     )
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import  React from 'react';
 import App from '../containers/App';
 import { NotFoundView, Counter, FooView, BarView } from '../components';
 import User from '../pages/User';
@@ -15,7 +15,7 @@ const routes = [
         component: Counter,
         exactly: true
       },
-      { pattern: '/user/:id',
+      { pattern: '/users/:id',
         component: User,
         exactly: true
       },

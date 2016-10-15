@@ -27,10 +27,9 @@ class User extends Component {
   }
 
   getContent() {
-    console.log('this.props.posts', this.props.posts);
     if (this.state.activeTab === "1") {
       return (
-        <Posts posts={this.props.posts} />
+        <Posts posts={this.props.posts} togglePost={this.props.actions.togglePostView} />
       );
     }
     return <AccountData info={this.props.info} />;
