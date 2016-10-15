@@ -2,49 +2,44 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as UserActions from '../../actions/UserActions';
+import getCookie from '../../helpers/getCookie';
 
-import {Nav, NavItem} from 'react-bootstrap';
+import { Nav, NavItem } from 'react-bootstrap';
 import Posts from '../../components/Posts';
 import AccountData from '../../components/AccountData';
+import { Link, Match }from 'react-router';
 
 class User extends Component {
-  state = {
-    activeTab: "1"
-  };
-
-  handleSelect = this.handleSelect.bind(this);
-
   componentDidMount() {
-    const userId = this.props.params.id;
+    const userId = getCookie('userId');
     if (userId) {
       this.props.actions.getPosts(userId);
       this.props.actions.getUserIfo(userId);
     }
   }
 
-  handleSelect(tab) {
-    this.setState({activeTab: tab});
-  }
-
-  getContent() {
-    if (this.state.activeTab === "1") {
-      return (
-        <Posts posts={this.props.posts} togglePost={this.props.actions.togglePostView} />
-      );
-    }
-    return <AccountData info={this.props.info} />;
-  }
-
   render() {
+    const { pathname, actions, posts, info, location } = this.props;
     return (
       <div className="counter-container">
-        <Nav bsStyle="tabs" activeKey={this.state.activeTab} onSelect={this.handleSelect}>
-          <NavItem eventKey="1">Posts</NavItem>
-          <NavItem eventKey="2">Info</NavItem>
+        <Nav bsStyle="tabs" activeKey={location.pathname} onSelect={this.handleSelect}>
+          <NavItem eventKey="/user">
+            <Link style={{ padding: 10 }} to={`${pathname}`}>Posts</Link>
+          </NavItem>
+          <NavItem eventKey={`${pathname}/info`}>
+            <Link style={{ padding: 10 }} to={`${pathname}/info`}>Info</Link>
+          </NavItem>
         </Nav>
-        <div>
-          {this.getContent()}
-        </div>
+        <Match
+          pattern={pathname}
+          exactly
+          component={() => <Posts posts={posts} togglePost={actions.togglePostView} />}
+        />
+        <Match
+          pattern={`${pathname}/info`}
+          component={() => <AccountData info={info} />}
+        />
+
       </div>
     );
   }
@@ -54,7 +49,9 @@ User.propTypes = {
   actions: PropTypes.object.isRequired,
   posts: PropTypes.array.isRequired,
   info: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired
+  params: PropTypes.object.isRequired,
+  pathname: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -74,5 +71,6 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(User);
+
 
 

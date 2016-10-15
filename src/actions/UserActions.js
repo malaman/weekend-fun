@@ -4,13 +4,13 @@ import http from '../helpers/http';
 // Actions
 export const getPosts = (userId) => ({
   type: 'LOAD_USER_POSTS',
-  payload: http({ uri: `/users/${userId}/posts?_embed=comments` })
+  payload: http({ uri: `/api/users/${userId}/posts?_embed=comments` })
 });
 
 
 export const getUserIfo = (userId) => ({
   type: 'LOAD_USER_INFO',
-  payload: http({ uri: `/users/${userId}` })
+  payload: http({ uri: `/api/users/${userId}` })
 });
 
 export const togglePostView = (postId) => ({

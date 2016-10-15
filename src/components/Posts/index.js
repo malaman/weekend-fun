@@ -6,7 +6,7 @@ const centredCellStyle = {textAlign: "center"};
 
 function Comment({name, email, body}) {
   return (
-    <Panel header={`${name} (${email})`}>
+    <Panel header={<span>{`${name} `}(<a href={`mailto:${email}`}>{email}</a>)</span>}>
       {body}
     </Panel>
   )
@@ -58,11 +58,10 @@ class Posts extends Component {
               {post.body}
             </Panel>
             <Panel bsStyle="success" header="Comments">
-              {post.comments.map(comment => <Comment {...comment} />)}
+              {post.comments.map((comment, i)=> <Comment key={i} {...comment} />)}
             </Panel>
           </td>
           <td>
-
           </td>
         </tr>
       )

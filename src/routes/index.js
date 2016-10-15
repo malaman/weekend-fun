@@ -2,7 +2,8 @@ import  React from 'react';
 import App from '../containers/App';
 import { NotFoundView, Counter, FooView, BarView } from '../components';
 import User from '../pages/User';
-
+import Posts from '../components/Posts';
+import AccountData from '../components/AccountData';
 import Router from 'react-router/BrowserRouter';
 import Match from 'react-router/Match';
 
@@ -11,23 +12,21 @@ const routes = [
   { pattern: '/',
     component: App,
     routes: [
-      { pattern: '/',
-        component: Counter,
-        exactly: true
-      },
-      { pattern: '/users/:id',
+      { pattern: '/user',
         component: User,
-        exactly: true
+        routes: [
+          { pattern: '/user',
+            component: Posts,
+            exactly: true
+          },
+          { pattern: '/user/info',
+            component: AccountData,
+          }
+        ]
       },
-      { pattern: '/foo',
-        component: FooView
-      },
-      { pattern: '/bar',
-        component: BarView
-      }
     ]
   }
-]
+];
 
 export const MatchWithSubRoutes = (route) => (
   <Match {...route} render={(props) => (

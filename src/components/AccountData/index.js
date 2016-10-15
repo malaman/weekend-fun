@@ -17,7 +17,6 @@ class AccountData extends Component {
   };
 
   render () {
-    console.log('this.props', this.props);
     return (
         <Grid className='settings'>
           <Row>

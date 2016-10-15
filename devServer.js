@@ -21,7 +21,7 @@ const compiler = webpack(config);
 
 
 function authenticate(username, psw, done) {
-  http({ uri: '/users' }).then(users => {
+  http({ uri: '/users', isExternal: true}).then(users => {
     if (users.length) {
       const user = users.find(user => user.username === username);
       if (user) {
@@ -38,7 +38,19 @@ function logout(req, res){
 }
 
 function handleAppRequest(req, res) {
+  res.cookie('userId', req.session.passport.user.id);
   res.sendFile(path.join(__dirname, 'index.html'));
+}
+
+function handleApi(req, res) {
+  if (parseInt(req.params.userId, 10) === req.session.passport.user.id) {
+    http({uri: req.originalUrl.replace('/api', ''), isExternal: true}).then(response => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(response);
+    })
+  } else {
+    res.status(404).send('Not found');
+  }
 }
 
 passport.use(new LocalStrategy({usernameField: 'username', passwordField: false}, authenticate));
@@ -54,12 +66,14 @@ app
   .use(bodyParser.urlencoded({ extended: true }))
   .use(passport.initialize())
   .use(passport.session())
+  .use(require('webpack-hot-middleware')(compiler))
   .get('/login', function (req, res) { res.render('login'); })
   .post('/login', passport.authenticate('local', {failureRedirect: '/login?message=Login failed' }), (req, res) => {
-    res.redirect(`/users/${req.session.passport.user.id}`)
+    res.redirect('/user')
   })
+
   .get('/logout', logout)
-  .use(require('webpack-hot-middleware')(compiler))
+  .use('/api/users/:userId*',connectEnsureLogin.ensureLoggedIn(), handleApi)
   .use(connectEnsureLogin.ensureLoggedIn(), handleAppRequest)
   .listen(3000, 'localhost', (err) => {
   if (err) {
