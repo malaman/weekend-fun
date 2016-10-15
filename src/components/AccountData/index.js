@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {Grid, Row, Panel, Table} from 'react-bootstrap';
-// import {Input, Grid, Row, Button, Label, Panel} from 'react-bootstrap/lib';
 
 function InfoItem({label, value}) {
   return (

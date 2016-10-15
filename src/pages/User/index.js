@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link, Match }from 'react-router';
+import { Nav, NavItem } from 'react-bootstrap';
+
 import * as UserActions from '../../actions/UserActions';
 import getCookie from '../../helpers/getCookie';
-
-import { Nav, NavItem } from 'react-bootstrap';
 import Posts from '../../components/Posts';
 import AccountData from '../../components/AccountData';
-import { Link, Match }from 'react-router';
+import NewPost from '../../components/NewPost';
 
 class User extends Component {
   componentDidMount() {
@@ -29,6 +30,9 @@ class User extends Component {
           <NavItem eventKey={`${pathname}/info`}>
             <Link style={{ padding: 10 }} to={`${pathname}/info`}>Info</Link>
           </NavItem>
+          <NavItem eventKey={`${pathname}/newPost`}>
+            <Link style={{ padding: 10 }} to={`${pathname}/newPost`}>New Post</Link>
+          </NavItem>
         </Nav>
         <Match
           pattern={pathname}
@@ -39,7 +43,10 @@ class User extends Component {
           pattern={`${pathname}/info`}
           component={() => <AccountData info={info} />}
         />
-
+        <Match
+          pattern={`${pathname}/newPost`}
+          component={() => <NewPost />}
+        />
       </div>
     );
   }

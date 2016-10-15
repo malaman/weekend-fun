@@ -12,7 +12,7 @@ class Header extends React.Component {
     return (
       <span>
         <Glyphicon glyph='user' />
-        {this.props.username}
+        {` ${this.props.username}`}
       </span>
     );
   }

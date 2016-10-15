@@ -1,9 +1,11 @@
 import  React from 'react';
 import App from '../containers/App';
-import { NotFoundView, Counter, FooView, BarView } from '../components';
+import { NotFoundView} from '../components';
 import User from '../pages/User';
 import Posts from '../components/Posts';
 import AccountData from '../components/AccountData';
+import NewPost from '../components/NewPost';
+
 import Router from 'react-router/BrowserRouter';
 import Match from 'react-router/Match';
 
@@ -21,6 +23,9 @@ const routes = [
           },
           { pattern: '/user/info',
             component: AccountData,
+          },
+          { pattern: '/user/newPost',
+            component: NewPost,
           }
         ]
       },
