@@ -18,27 +18,24 @@ export const togglePostView = (postId) => ({
   payload: postId
 });
 
+export const createPost = (payload) => (dispatch, getState) => {
+  const { id } = getState().user.info;
+  const posts = getState().user.posts;
+  const post = {...payload, comments: [], userId: id, id: 500 + posts.length};
+  posts.unshift(post);
+  dispatch(setSaveStatus());
+  dispatch({
+    type: 'LOAD_USER_POSTS_FULFILLED',
+    payload: posts
+  });
+};
 
-// export const getCommentsByPostId = (userId) => ({
-//   type: 'LOAD_USER_INFO',
-//   payload: http({ uri: `/users/${userId}` })
-// });
-//
-//
-// export const togglePostViewAndLoadComment = (postId) => (dispatch, getState) => {
-//   if (!getState().user.comments[postId]) {
-//
-//
-//   }
-//   dispatch(togglePostView(postId));
-// };
-//
-// export const loadNavTreeAndExpandNode = (categoryId) => (dispatch, getState) => {
-//   dispatch(loadNavigationTree()).payload.promise.then(() => {
-//     const node = getState().virtualCategories.get('navigation')
-//       .find(item => item.getIn(['attributes', 'category_id']) === categoryId);
-//     if (node) {
-//       dispatch(showParents(node));
-//     }
-//   });
-// };
+export const setSaveStatus = () => ({
+  type: 'SET_SAVE_STATUS',
+  payload: {isSaved: true, isFailed: false}
+});
+
+export const clearSaveStatus = () => ({
+  type: 'CLEAR_SAVE_STATUS',
+  payload: {isSaved: false, isFailed: false}
+});

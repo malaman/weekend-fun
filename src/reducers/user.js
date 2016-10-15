@@ -2,10 +2,12 @@ import deepClone from '../helpers/deepClone';
 const initialState = {
   posts: [],
   info: {
+    id: -1,
     address: {},
     company: {}
   },
-  comments: {}
+  comments: {},
+  saveStatus: {isSaved: false, isFailed: false}
 };
 
 function getPosts(state, payload) {
@@ -35,6 +37,10 @@ export default function user(state = initialState, action) {
           post.expanded = !Boolean(post.expanded);
         }
         return {...state, posts: newPosts};
+      case 'SET_SAVE_STATUS':
+        return {...state, saveStatus: {isSaved: true, isFailed: false}};
+      case 'CLEAR_SAVE_STATUS':
+        return {...state, saveStatus: {isSaved: false, isFailed: false}};
       default:
         return state;
     }

@@ -80,7 +80,7 @@ class Posts extends Component {
           <tr>
             <th style={centredCellStyle}></th>
             <th style={centredCellStyle}>#</th>
-            <th className='col-sm-8 col-md-10'>Topic</th>
+            <th className='col-sm-8 col-md-10'>Title</th>
             <th style={centredCellStyle}>Comments</th>
           </tr>
           </thead>

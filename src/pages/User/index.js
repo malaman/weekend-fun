@@ -20,7 +20,7 @@ class User extends Component {
   }
 
   render() {
-    const { pathname, actions, posts, info, location } = this.props;
+    const { pathname, actions, posts, info, location, saveStatus } = this.props;
     return (
       <div className="counter-container">
         <Nav bsStyle="tabs" activeKey={location.pathname} onSelect={this.handleSelect}>
@@ -45,7 +45,7 @@ class User extends Component {
         />
         <Match
           pattern={`${pathname}/newPost`}
-          component={() => <NewPost />}
+          component={() => <NewPost createPost={actions.createPost} clearSaveStatus={actions.clearSaveStatus} saveStatus={saveStatus} />}
         />
       </div>
     );
@@ -58,13 +58,15 @@ User.propTypes = {
   info: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   pathname: PropTypes.string.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  saveStatus: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   return {
     posts: state.user.posts,
-    info: state.user.info
+    info: state.user.info,
+    saveStatus: state.user.saveStatus
   };
 }
 
@@ -78,6 +80,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(User);
-
-
-
