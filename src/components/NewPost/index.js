@@ -51,7 +51,7 @@ class NewPost extends Component {
             </FormGroup>
             <FormGroup controlId="postBody" validationState={bodyValidation}>
               <ControlLabel>Body</ControlLabel>
-              <FormControl ref="postBody" componentClass="textarea" type="text" />
+              <FormControl ref="postBody" style={{height: 200}} componentClass="textarea" type="text" />
               <HelpBlock>{this.state.bodyHelpMessage}</HelpBlock>
             </FormGroup>
           </Panel>
