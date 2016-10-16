@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
-import {Grid, Row, Panel, Table} from 'react-bootstrap';
+import { connect } from 'react-redux';
+
+import {Grid, Row, Panel} from 'react-bootstrap';
 
 function InfoItem({label, value}) {
   return (
@@ -44,4 +46,12 @@ class AccountData extends Component {
   }
 }
 
-export default AccountData;
+function mapStateToProps(state) {
+  return {
+    info: state.user.info,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+)(AccountData);

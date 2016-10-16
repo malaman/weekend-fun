@@ -1,4 +1,5 @@
 import deepClone from '../helpers/deepClone';
+
 const initialState = {
   posts: [],
   info: {

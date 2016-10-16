@@ -8,12 +8,12 @@ export const getPosts = (userId) => ({
 });
 
 
-export const getUserIfo = (userId) => ({
+export const getUserInfo = (userId) => ({
   type: 'LOAD_USER_INFO',
   payload: http({ uri: `/api/users/${userId}` })
 });
 
-export const togglePostView = (postId) => ({
+export const togglePost = (postId) => ({
   type: 'TOGGLE_POST_VIEW',
   payload: postId
 });

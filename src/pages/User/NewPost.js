@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from "react";
 import ReactDOM from "react-dom";
+import { connect } from 'react-redux';
+import {createPost, clearSaveStatus} from '../../actions/UserActions';
 
 import {Grid, Row, Col, Panel, Button, FormGroup, ControlLabel, HelpBlock, FormControl} from "react-bootstrap";
-import SaveMessage from "./SaveMessage";
+import SaveMessage from "../../components/SaveMessage";
 
 class NewPost extends Component {
   static propTypes = {
@@ -27,13 +29,17 @@ class NewPost extends Component {
   handleCreateClick() {
     const title = ReactDOM.findDOMNode(this.refs.posttitle).value || "";
     const body = ReactDOM.findDOMNode(this.refs.postBody).value || "";
-    const titleHelpMessage = title === "" ? this.getErrorMessage("title"): "";
+    const titleHelpMessage = title === "" ? this.getErrorMessage("Title"): "";
     const bodyHelpMessage = body === "" ? this.getErrorMessage("Body"): "";
     this.setState({title, body, titleHelpMessage, bodyHelpMessage});
     if (titleHelpMessage.length == 0 && bodyHelpMessage.length === 0) {
-      this.setState({saveStatus: {isSaved: true, isFailed: false}});
+      this.setState({saveStatus: {isSaved: true, isFailed: false}, title: "", body: ""});
       this.props.createPost({title, body});
     }
+  }
+
+  changeFormControl(prop) {
+    return (event) => this.setState({[prop]: event.target.value})
   }
 
   render () {
@@ -46,12 +52,24 @@ class NewPost extends Component {
           <Panel header = "Post">
             <FormGroup controlId="posttitle" validationState={titleValidation}>
               <ControlLabel>Title</ControlLabel>
-              <FormControl ref="posttitle" type="text" />
+              <FormControl
+                ref="posttitle"
+                type="text"
+                value={this.state.title}
+                onChange={this.changeFormControl("title")}
+              />
               <HelpBlock>{this.state.titleHelpMessage}</HelpBlock>
             </FormGroup>
             <FormGroup controlId="postBody" validationState={bodyValidation}>
               <ControlLabel>Body</ControlLabel>
-              <FormControl ref="postBody" style={{height: 200}} componentClass="textarea" type="text" />
+              <FormControl
+                ref="postBody"
+                style={{height: 200}}
+                componentClass="textarea"
+                type="text"
+                value={this.state.body}
+                onChange={this.changeFormControl("body")}
+              />
               <HelpBlock>{this.state.bodyHelpMessage}</HelpBlock>
             </FormGroup>
           </Panel>
@@ -67,4 +85,14 @@ class NewPost extends Component {
   }
 }
 
-export default NewPost;
+function mapStateToProps(state) {
+    return {
+        saveStatus: state.user.saveStatus
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    {createPost, clearSaveStatus}
+)(NewPost);
+

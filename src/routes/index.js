@@ -1,9 +1,9 @@
 import React from 'react';
 import App from '../containers/App';
 import User from '../pages/User';
-import Posts from '../components/Posts';
-import AccountData from '../components/AccountData';
-import NewPost from '../components/NewPost';
+import Posts from '../pages/User/Posts';
+import AccountData from '../pages/User/AccountData';
+import NewPost from '../pages/User/NewPost';
 
 import Router from 'react-router/BrowserRouter';
 import Match from 'react-router/Match';

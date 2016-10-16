@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from "react";
+import { connect } from 'react-redux';
+import { togglePost } from '../../actions/UserActions';
 import {Table, Panel} from "react-bootstrap";
 import classnames from "classnames";
 
@@ -90,7 +92,7 @@ class Posts extends Component {
         </Table>
       )
     }
-    return <Panel> No posts is created yet!</Panel>
+    return <Panel style={{height: 300}}> No posts is created yet!</Panel>
   }
 
   render () {
@@ -103,4 +105,15 @@ class Posts extends Component {
   }
 }
 
-export default Posts;
+function mapStateToProps(state) {
+    return {
+        posts: state.user.posts,
+        info: state.user.info,
+        saveStatus: state.user.saveStatus
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    {togglePost}
+)(Posts);

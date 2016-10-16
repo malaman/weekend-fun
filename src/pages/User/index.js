@@ -1,82 +1,57 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Link, Match }from 'react-router';
+import { Link }from 'react-router';
 import { Nav, NavItem } from 'react-bootstrap';
 
-import * as UserActions from '../../actions/UserActions';
+import { getPosts, getUserInfo } from '../../actions/UserActions';
+
 import getCookie from '../../helpers/getCookie';
-import Posts from '../../components/Posts';
-import AccountData from '../../components/AccountData';
-import NewPost from '../../components/NewPost';
+import { MatchWithSubRoutes } from '../../routes';
 
 class User extends Component {
   componentDidMount() {
     const userId = getCookie('userId');
     if (userId) {
-      this.props.actions.getPosts(userId);
-      this.props.actions.getUserIfo(userId);
+      this.props.getPosts(userId);
+      this.props.getUserInfo(userId);
     }
   }
 
   render() {
-    const { pathname, actions, posts, info, location, saveStatus } = this.props;
+    const { pathname, location, routes } = this.props;
+    const linkStyle = { padding: 10 };
     return (
       <div className="counter-container">
         <Nav bsStyle="tabs" activeKey={location.pathname} onSelect={this.handleSelect}>
           <NavItem eventKey="/user">
-            <Link style={{ padding: 10 }} to={`${pathname}`}>Posts</Link>
+            <Link style={linkStyle} to={`${pathname}`}>Posts</Link>
           </NavItem>
           <NavItem eventKey={`${pathname}/info`}>
-            <Link style={{ padding: 10 }} to={`${pathname}/info`}>Info</Link>
+            <Link style={linkStyle} to={`${pathname}/info`}>Info</Link>
           </NavItem>
           <NavItem eventKey={`${pathname}/newPost`}>
-            <Link style={{ padding: 10 }} to={`${pathname}/newPost`}>New Post</Link>
+            <Link style={linkStyle} to={`${pathname}/newPost`}>New Post</Link>
           </NavItem>
         </Nav>
-        <Match
-          pattern={pathname}
-          exactly
-          component={() => <Posts posts={posts} togglePost={actions.togglePostView} />}
-        />
-        <Match
-          pattern={`${pathname}/info`}
-          component={() => <AccountData info={info} />}
-        />
-        <Match
-          pattern={`${pathname}/newPost`}
-          component={() => <NewPost createPost={actions.createPost} clearSaveStatus={actions.clearSaveStatus} saveStatus={saveStatus} />}
-        />
+          {routes.map((route, i) => <MatchWithSubRoutes key={i} {...route} />)}
       </div>
     );
   }
 }
 
 User.propTypes = {
-  actions: PropTypes.object.isRequired,
-  posts: PropTypes.array.isRequired,
-  info: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   pathname: PropTypes.string.isRequired,
   location: PropTypes.object.isRequired,
-  saveStatus: PropTypes.object.isRequired
+  getPosts: PropTypes.func.isRequired,
+  getUserInfo: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
-  return {
-    posts: state.user.posts,
-    info: state.user.info,
-    saveStatus: state.user.saveStatus
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(UserActions, dispatch),
-  };
+  return {};
 }
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  {getPosts, getUserInfo}
 )(User);
