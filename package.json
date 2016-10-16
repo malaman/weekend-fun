@@ -1,14 +1,15 @@
 {
   "name": "generator-simple-redux",
   "version": "1.0.0",
-  "description": "My simple redux application.",
+  "description": "Weekend fun application.",
   "scripts": {
     "clean": "rimraf dist",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "build": "npm run clean && npm run build:webpack",
     "dev": "NODE_ENV=development npm start",
     "start": "node devServer.js",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.13.3",
     "node-sass": "^3.4.2",
+    "react-test-renderer": "^15.3.2",
     "redux-devtools": "^3.0.1",
     "redux-devtools-dock-monitor": "^1.0.1",
     "redux-devtools-log-monitor": "^1.0.2",
@@ -56,6 +58,7 @@
     "history": "^2.0.0-rc2",
     "imports-loader": "^0.6.5",
     "isomorphic-fetch": "^2.2.1",
+    "jest": "^16.0.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "react": "^15.3.0",

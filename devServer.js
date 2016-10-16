@@ -43,7 +43,7 @@ function handleAppRequest(req, res) {
 }
 
 function handleApi(req, res) {
-  if (parseInt(req.params.userId, 10) === req.session.passport.user.id) {
+  if (req.params.userId && req.session.passport.user && parseInt(req.params.userId, 10) === req.session.passport.user.id) {
     http({uri: req.originalUrl.replace('/api', ''), isExternal: true}).then(response => {
       res.setHeader('Content-Type', 'application/json');
       res.send(response);
@@ -53,7 +53,7 @@ function handleApi(req, res) {
   }
 }
 
-passport.use(new LocalStrategy({usernameField: 'username', passwordField: false}, authenticate));
+passport.use(new LocalStrategy(authenticate));
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
@@ -67,11 +67,10 @@ app
   .use(passport.initialize())
   .use(passport.session())
   .use(require('webpack-hot-middleware')(compiler))
-  .get('/login', function (req, res) { res.render('login'); })
+  .get('/login', (req, res) => res.render('login'))
   .post('/login', passport.authenticate('local', {failureRedirect: '/login?message=Login failed' }), (req, res) => {
     res.redirect('/user')
   })
-
   .get('/logout', logout)
   .use('/api/users/:userId*',connectEnsureLogin.ensureLoggedIn(), handleApi)
   .use(connectEnsureLogin.ensureLoggedIn(), handleAppRequest)

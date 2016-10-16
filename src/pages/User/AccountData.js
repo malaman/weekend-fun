@@ -12,7 +12,7 @@ function InfoItem({label, value}) {
   )
 }
 
-class AccountData extends Component {
+export class AccountData extends Component {
   static propTypes = {
     info: PropTypes.object.isRequired
   };

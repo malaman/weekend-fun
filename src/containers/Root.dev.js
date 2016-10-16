@@ -11,7 +11,7 @@ module.exports = class Root extends Component {
       <Provider store={store}>
         <div>
           <Routes />
-          <DevTools />
+          {/*<DevTools />*/}
         </div>
       </Provider>
     );

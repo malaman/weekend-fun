@@ -20,7 +20,7 @@ Comment.propTypes = {
   body: PropTypes.string.isRequired
 };
 
-class Posts extends Component {
+export class Posts extends Component {
   static propTypes = {
     posts: PropTypes.array.isRequired,
     togglePost: PropTypes.func.isRequired
@@ -92,7 +92,7 @@ class Posts extends Component {
         </Table>
       )
     }
-    return <Panel style={{height: 300}}> No posts is created yet!</Panel>
+    return <Panel style={{height: 300}} />
   }
 
   render () {
@@ -106,11 +106,7 @@ class Posts extends Component {
 }
 
 function mapStateToProps(state) {
-    return {
-        posts: state.user.posts,
-        info: state.user.info,
-        saveStatus: state.user.saveStatus
-    };
+    return {posts: state.user.posts};
 }
 
 export default connect(

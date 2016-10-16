@@ -1,18 +1,28 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import Miss from 'react-router/Miss';
+import React, { Component, PropTypes } from "react";
+import { connect } from "react-redux";
+import Miss from "react-router/Miss";
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import NotFound from '../components/NotFound';
-import LoadingIndicator from '../components/LoadingIndicator';
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import NotFound from "../components/NotFound";
+import LoadingIndicator from "../components/LoadingIndicator";
 
-import {MatchWithSubRoutes} from '../routes';
+import {MatchWithSubRoutes} from "../routes";
 
 class App extends Component {
   static propTypes = {
     routes: PropTypes.array.isRequired
   };
+
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  };
+
+  componentWillMount() {
+    if (this.props.pathname === "/") {
+      this.context.router.transitionTo("/user");
+    }
+  }
 
   render() {
     const {routes, info} = this.props;
