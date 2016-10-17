@@ -3,11 +3,15 @@ import { Provider } from 'react-redux';
 import Routes from '../routes';
 
 module.exports = class Root extends Component {
+  static propTypes = {
+    store: PropTypes.object
+  };
+
   render() {
-    const { store, history } = this.props;
+    const { store } = this.props;
     return (
       <Provider store={store}>
-        <Routes history={history} />
+        <Routes  />
       </Provider>
     );
   }

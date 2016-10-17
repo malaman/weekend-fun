@@ -1,13 +1,16 @@
 import React from 'react';
+import Router from 'react-router/BrowserRouter';
+import Match from 'react-router/Match';
+
 import App from '../containers/App';
 import User from '../pages/User';
 import Posts from '../pages/User/Posts';
 import AccountData from '../pages/User/AccountData';
 import NewPost from '../pages/User/NewPost';
 
-import Router from 'react-router/BrowserRouter';
-import Match from 'react-router/Match';
-
+/**
+ * global routing configuration
+ */
 const routes = [
   { pattern: '/',
     component: App,
@@ -31,6 +34,11 @@ const routes = [
   }
 ];
 
+/**
+ * wrapper around react-router-v4 Match component to enable global routing config
+ * @param route
+ * @constructor
+ */
 export const MatchWithSubRoutes = (route) => (
   <Match {...route} render={(props) => (<route.component {...props} routes={route.routes} />)} />
 );

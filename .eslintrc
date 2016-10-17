@@ -1,6 +1,10 @@
 {
-  "extends": "airbnb",
+  "parser"  : "babel-eslint",
+  "extends": "standard-react",
   "rules": {
-    "comma-dangle": 0
+    "react/jsx-indent": [2, 2],
+    "comma-dangle": 0,
+    "jsx-quotes": [1, "prefer-single"],
+    "react/jsx-space-before-closing": [0, "never"]
   }
 }

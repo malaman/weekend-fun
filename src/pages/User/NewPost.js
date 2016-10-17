@@ -1,10 +1,10 @@
-import React, {Component, PropTypes} from "react";
-import ReactDOM from "react-dom";
+import React, {Component, PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import {createPost, clearSaveStatus} from '../../actions/UserActions';
+import {Grid, Row, Col, Panel, Button, FormGroup, ControlLabel, HelpBlock, FormControl} from 'react-bootstrap';
 
-import {Grid, Row, Col, Panel, Button, FormGroup, ControlLabel, HelpBlock, FormControl} from "react-bootstrap";
-import SaveMessage from "../../components/SaveMessage";
+import {createPost, clearSaveStatus} from '../../actions/UserActions';
+import SaveMessage from '../../components/SaveMessage';
 
 class NewPost extends Component {
   static propTypes = {
@@ -14,10 +14,10 @@ class NewPost extends Component {
   };
 
   state = {
-    title: "",
-    body: "",
-    titleHelpMessage: "",
-    bodyHelpMessage: "",
+    title: '',
+    body: '',
+    titleHelpMessage: '',
+    bodyHelpMessage: '',
   };
 
   handleCreateClick = this.handleCreateClick.bind(this);
@@ -27,13 +27,13 @@ class NewPost extends Component {
   }
 
   handleCreateClick() {
-    const title = ReactDOM.findDOMNode(this.refs.posttitle).value || "";
-    const body = ReactDOM.findDOMNode(this.refs.postBody).value || "";
-    const titleHelpMessage = title === "" ? this.getErrorMessage("Title"): "";
-    const bodyHelpMessage = body === "" ? this.getErrorMessage("Body"): "";
+    const title = ReactDOM.findDOMNode(this.refs.posttitle).value || '';
+    const body = ReactDOM.findDOMNode(this.refs.postBody).value || '';
+    const titleHelpMessage = title === '' ? this.getErrorMessage('Title'): '';
+    const bodyHelpMessage = body === '' ? this.getErrorMessage('Body'): '';
     this.setState({title, body, titleHelpMessage, bodyHelpMessage});
     if (titleHelpMessage.length == 0 && bodyHelpMessage.length === 0) {
-      this.setState({saveStatus: {isSaved: true, isFailed: false}, title: "", body: ""});
+      this.setState({saveStatus: {isSaved: true, isFailed: false}, title: '', body: ''});
       this.props.createPost({title, body});
     }
   }
@@ -43,32 +43,32 @@ class NewPost extends Component {
   }
 
   render () {
-    const titleValidation = this.state.titleHelpMessage !== "" ? "error" : undefined;
-    const bodyValidation = this.state.bodyHelpMessage !== "" ? "error" : undefined;
+    const titleValidation = this.state.titleHelpMessage !== '' ? 'error' : undefined;
+    const bodyValidation = this.state.bodyHelpMessage !== '' ? 'error' : undefined;
     return (
       <Grid>
         <Row>
           <h2>Create new post</h2>
-          <Panel header = "Post">
-            <FormGroup controlId="posttitle" validationState={titleValidation}>
+          <Panel header='Post'>
+            <FormGroup controlId='posttitle' validationState={titleValidation}>
               <ControlLabel>Title</ControlLabel>
               <FormControl
-                ref="posttitle"
-                type="text"
+                ref='posttitle'
+                type='text'
                 value={this.state.title}
-                onChange={this.changeFormControl("title")}
+                onChange={this.changeFormControl('title')}
               />
               <HelpBlock>{this.state.titleHelpMessage}</HelpBlock>
             </FormGroup>
-            <FormGroup controlId="postBody" validationState={bodyValidation}>
+            <FormGroup controlId='postBody' validationState={bodyValidation}>
               <ControlLabel>Body</ControlLabel>
               <FormControl
-                ref="postBody"
+                ref='postBody'
                 style={{height: 200}}
-                componentClass="textarea"
-                type="text"
+                componentClass='textarea'
+                type='text'
                 value={this.state.body}
-                onChange={this.changeFormControl("body")}
+                onChange={this.changeFormControl('body')}
               />
               <HelpBlock>{this.state.bodyHelpMessage}</HelpBlock>
             </FormGroup>

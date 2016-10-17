@@ -19,7 +19,14 @@ const secret = 'eaw3ienge6Eing6nue7Mois1Vesequ0Chahx1ahyieti8acxyee2zadsfe';
 const app = express();
 const compiler = webpack(config);
 
-
+/**
+ * If username is found within from http://jsonplaceholder.typicode.com/users endpoint, user is authenticated
+ * sessions are stored in memory. After server restart user should pass login procedure again
+ *
+ * @param {String} username username from http://jsonplaceholder.typicode.com/users
+ * @param {String} psw used for passport-local compatibility. Always '123'. Do not participate in authentication
+ * @param {Function} done serialisation/deserialisation callback
+ */
 function authenticate(username, psw, done) {
   http({ uri: '/users', isExternal: true}).then(users => {
     if (users.length) {
@@ -31,17 +38,36 @@ function authenticate(username, psw, done) {
     done(null, false);
   });
 }
-
+/**
+ * Logout handler
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
 function logout(req, res){
   req.logout();
   res.redirect('/login');
 }
 
+/**
+ * For general case server will respond with index.html and user id in 'userId' cookie
+ * Cookie will be used in browser to construct xhr call to /api/users endpoints
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
 function handleAppRequest(req, res) {
   res.cookie('userId', req.session.passport.user.id);
   res.sendFile(path.join(__dirname, 'index.html'));
 }
 
+/**
+ * To improve  api security proxy api was implemented only for /api/users* routes
+ * if userId in route params does not match userId in passport session, 404 message will be sent
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
 function handleApi(req, res) {
   if (req.params.userId && req.session.passport.user && parseInt(req.params.userId, 10) === req.session.passport.user.id) {
     http({uri: req.originalUrl.replace('/api', ''), isExternal: true}).then(response => {

@@ -1,10 +1,11 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { togglePost } from '../../actions/UserActions';
-import {Table, Panel} from "react-bootstrap";
-import classnames from "classnames";
+import classnames from 'classnames';
+import {Table, Panel, Alert} from 'react-bootstrap';
 
-const centredCellStyle = {textAlign: "center"};
+import { togglePost } from '../../actions/UserActions';
+
+const centredCellStyle = {textAlign: 'center'};
 
 function Comment({name, email, body}) {
   return (
@@ -31,18 +32,18 @@ export class Posts extends Component {
   }
 
   getPost(post) {
-    const chevronClass = classnames("glyphicon", {
-      "glyphicon-chevron-up": post.expanded,
-      "glyphicon-chevron-down": !post.expanded
+    const chevronClass = classnames('glyphicon', {
+      'glyphicon-chevron-up': post.expanded,
+      'glyphicon-chevron-down': !post.expanded
     });
     return (
-      <tr key={post.id} style={{cursor: "pointer"}} onClick={this.handlePostClick(post.id)}>
+      <tr key={post.id} style={{cursor: 'pointer'}} onClick={this.handlePostClick(post.id)}>
         <td style={centredCellStyle}>
           <span className={chevronClass}></span>
         </td>
         <td style={centredCellStyle}>{post.id}</td>
-        <td>{post.title}</td>
-        <th style={centredCellStyle}>{post.totalComments}</th>
+        <td className='col-xs-6 col-sm-6 col-md-10'>{post.title}</td>
+        <td style={centredCellStyle}>{post.totalComments}</td>
       </tr>
     );
   }
@@ -51,20 +52,18 @@ export class Posts extends Component {
     if (post.expanded) {
       return (
         <tr key={`${post.id}:comments`}>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-            <Panel bsStyle="success" header="Post body">
+          <td />
+          <td />
+          <td className='col-xs-6 col-sm-6 col-md-10'>
+            <Panel bsStyle='success' header='Post body'>
               {post.body}
             </Panel>
-            <Panel bsStyle="success" header="Comments">
+            <Alert bsStyle='success'>
+              Comments
+            </Alert>
               {post.comments.map((comment, i)=> <Comment key={i} {...comment} />)}
-            </Panel>
           </td>
-          <td>
-          </td>
+          <td/>
         </tr>
       )
     }
@@ -79,12 +78,12 @@ export class Posts extends Component {
       return (
         <Table striped bordered hover>
           <thead>
-          <tr>
-            <th style={centredCellStyle}></th>
-            <th style={centredCellStyle}>#</th>
-            <th className='col-sm-8 col-md-10'>Title</th>
-            <th style={centredCellStyle}>Comments</th>
-          </tr>
+            <tr>
+              <th style={centredCellStyle}></th>
+              <th style={centredCellStyle}>#</th>
+              <th className='col-xs-6 col-sm-6 col-md-10'>Title</th>
+              <th style={centredCellStyle}>Comments</th>
+            </tr>
           </thead>
           <tbody>
           {this.getPosts()}

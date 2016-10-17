@@ -5,9 +5,12 @@ import thunk from 'redux-thunk';
 import DevTools from '../containers/DevTools';
 import promiseMiddleware from 'redux-promise-middleware';
 
-
 const logger = createLogger();
-
+/**
+ * thunk, logger, promiseMiddleware are used as redux middleware
+ *
+ * uncomment logger to receive debug information in browser console
+ */
 const finalCreateStore = compose(
   applyMiddleware(/*logger,*/ thunk, promiseMiddleware()),
   DevTools.instrument()

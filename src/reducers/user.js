@@ -11,12 +11,26 @@ const initialState = {
   saveStatus: {isSaved: false, isFailed: false}
 };
 
+/**
+ * posts object of app state is enchanged with totalComments {Number} property
+ *
+ * @param {Object} state current app state
+ * @param {Array} payload - array of post from api endpoint
+ * @returns {Object} new app state
+ */
 function getPosts(state, payload) {
   const posts = payload.map(post => ({...post, totalComments: post.comments.length}));
   return {...state, posts};
 
 }
-
+/**
+ *
+ * reducer for user page
+ *
+ * @param {Object} state current app state
+ * @param {Object} action - action
+ * @returns {Object} - new app state
+ */
 export default function user(state = initialState, action) {
     switch (action.type) {
       case 'LOAD_USER_POSTS_FULFILLED':

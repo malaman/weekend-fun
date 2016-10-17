@@ -1,17 +1,17 @@
-import React, { Component, PropTypes } from "react";
-import { connect } from "react-redux";
-import Miss from "react-router/Miss";
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import Miss from 'react-router/Miss';
 
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import NotFound from "../components/NotFound";
-import LoadingIndicator from "../components/LoadingIndicator";
-
-import {MatchWithSubRoutes} from "../routes";
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import NotFound from '../components/NotFound';
+import LoadingIndicator from '../components/LoadingIndicator';
+import {MatchWithSubRoutes} from '../routes';
 
 class App extends Component {
   static propTypes = {
-    routes: PropTypes.array.isRequired
+    routes: PropTypes.array.isRequired,
+    pathname: PropTypes.string.isRequired
   };
 
   static contextTypes = {
@@ -19,8 +19,9 @@ class App extends Component {
   };
 
   componentWillMount() {
-    if (this.props.pathname === "/") {
-      this.context.router.transitionTo("/user");
+    // redirect '/' routes to '/user' routes
+    if (this.props.pathname === '/') {
+      this.context.router.transitionTo('/user');
     }
   }
 
@@ -28,13 +29,13 @@ class App extends Component {
     const {routes, info} = this.props;
     const {username, name} = info;
     return (
-        <div className="container">
-          <LoadingIndicator isLoading={this.props.isLoading} />
-          <Header username={username} name={name} />
-          {routes.map((route, i) => <MatchWithSubRoutes key={i} {...route} />)}
-          <Miss component={NotFound} />
-          <Footer />
-        </div>
+      <div className='container'>
+        <LoadingIndicator isLoading={this.props.isLoading} />
+        <Header username={username} name={name} />
+        {routes.map((route, i) => <MatchWithSubRoutes key={i} {...route} />)}
+        <Miss component={NotFound} />
+        <Footer />
+      </div>
     );
   }
 }
