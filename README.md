@@ -9,14 +9,16 @@
 (i.e. 'Bret', 'Antonette', 'Moriah.Stanton')
 - run `npm run test` to run tests
 - run `npm run lint` to run lint checking
-- run `npm run build && npm run start` to start environment
+- run `npm run build && npm run start` to start production environment
 
 
 ## Tech stack
 - react/redux/redux-router-v4 are used as core frameworks
 - webpack is used as packager and bundling system
 - jest is used for testing
-- passport/passport-local is used for the user authentication.
+- passport/passport-local are used for the user authentication.
+
+## Other
 User sessions are stored in memory and user should reauthenticate again after server restart
 - To increase app security app will perform api request to `http://localhost:3000/api`.
 Node app will handle the request and (if userId in route params matches user.id in session.passport) forward request to http://jsonplaceholder.typicode.com/
